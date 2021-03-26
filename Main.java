@@ -1,11 +1,9 @@
 import java.io.*;
 
-
 class Main{
 
     public static void main(String[] args) {
         
-
         InputStream in = System.in;
 
         PrintStream out = System.out;
@@ -13,8 +11,6 @@ class Main{
         BufferedReader reader = new BufferedReader(new InputStreamReader(in));
 
         BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out));
-
-       
 
         try{
 
@@ -37,27 +33,32 @@ class Main{
             int conteggio = numeri.length;
 
 
-            for (int i=0; i<numeri.length; i++) {
+            for (int i=0, j=0; i<numeri.length; i++) {
 
                 try{
 
-                    interi[i] = Integer.parseInt(numeri[i]);
+                    interi[j] = Integer.parseInt(numeri[i]);
+
+                    j++;
                     
                 } catch (NumberFormatException E){
 
                     try{
 
-                        Double temp; // è necessario?
+                        Double temp; 
 
                         temp = Double.parseDouble(numeri[i]);
 
-                        interi[i] = temp.intValue();
+                        interi[j] = temp.intValue();
                         
-                        
+                        j++;
+                         
                     } catch (NumberFormatException F){
 
                         writer.write("Hai inserito un valore non valido: " + numeri[i]);
+
                         writer.newLine();
+
                         writer.flush();
 
                         conteggio--;
@@ -86,8 +87,6 @@ class Main{
                 somma += interi[j];
 
             }
-                
-            System.out.println("conteggio:"+conteggio); //debug
 
             /*
 
@@ -99,17 +98,35 @@ class Main{
                 Il valore maggiore inserito è:6
                 Il valore medio inserito è:2
 
-                // Quando trovo un valore non intero viene assegnato il valore di default(0)?
+                // Quando trovo un valore non intero viene assegnato il valore di default
 
             */
-        
-            writer.write("Il valore minore inserito è:" + min);
-            writer.newLine();
-            writer.write("Il valore maggiore inserito è:"+ max);
-            writer.newLine();
-            writer.write("Il valore medio inserito è:"+ somma/conteggio);
-            writer.newLine();
-            writer.flush();
+    
+            try{
+
+                writer.write("Il valore medio inserito è: "+ somma/conteggio);
+
+                writer.newLine();
+
+                writer.write("Il valore minore inserito è: " + min);
+
+                writer.newLine();
+
+                writer.write("Il valore maggiore inserito è: "+ max);
+
+
+            } catch (ArithmeticException G){
+
+                writer.write("Non sono stati inseriti valori.");
+
+            } finally{
+               
+                writer.newLine();
+
+                writer.flush();
+
+            }
+            
             
         } catch (IOException e) {
 
