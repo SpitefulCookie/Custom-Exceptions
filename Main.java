@@ -5,7 +5,6 @@ class Main{
 
     public static void main(String[] args) {
         
-        final String LOCALE = "it-IT";
 
         InputStream in = System.in;
 
@@ -15,110 +14,108 @@ class Main{
 
         BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out));
 
-        if(LOCALE.equals("it-IT")){
+       
 
-            try{
+        try{
 
-                writer.write("Inserisci tutti i lati della figura, separati da una virgola: ");
+            writer.write("Inserisci tutti i lati della figura, separati da una virgola: ");
 
-                writer.newLine();
+            writer.newLine();
 
-                writer.flush();
+            writer.flush();
 
-                String input = reader.readLine();
- 
-                String[] numeri = input.split(",");
+            String input = reader.readLine();
 
-                int[] interi = new int[numeri.length];
+            String[] numeri = input.split(",");
 
-                int min = Integer.MAX_VALUE;
+            int[] interi = new int[numeri.length];
 
-                int max = Integer.MIN_VALUE;
+            int min = Integer.MAX_VALUE;
 
-                int conteggio = numeri.length;
+            int max = Integer.MIN_VALUE;
+
+            int conteggio = numeri.length;
 
 
-                for (int i=0; i<numeri.length; i++) {
+            for (int i=0; i<numeri.length; i++) {
+
+                try{
+
+                    interi[i] = Integer.parseInt(numeri[i]);
+                    
+                } catch (NumberFormatException E){
 
                     try{
 
-                        interi[i] = Integer.parseInt(numeri[i]);
+                        Double temp; // è necessario?
+
+                        temp = Double.parseDouble(numeri[i]);
+
+                        interi[i] = temp.intValue();
                         
-                    } catch (NumberFormatException E){
+                        
+                    } catch (NumberFormatException F){
 
-                        try{
+                        writer.write("Hai inserito un valore non valido: " + numeri[i]);
+                        writer.newLine();
+                        writer.flush();
 
-                           Double temp; // è necessario?
-
-                            temp = Double.parseDouble(numeri[i]);
-
-                            interi[i] = temp.intValue();
-                            
-                            
-                        } catch (NumberFormatException F){
-
-                            writer.write("Hai inserito un valore non valido: " + numeri[i]);
-                            writer.newLine();
-                            writer.flush();
-
-                            conteggio--;
-
-                        }
+                        conteggio--;
 
                     }
 
                 }
-                int somma = 0;
-            
-                for(int j = 0 ; j<conteggio; j++){
 
-                    if(interi[j]<min){
+            }
+            int somma = 0;
+        
+            for(int j = 0 ; j<conteggio; j++){
 
-                        min = interi[j];
+                if(interi[j]<min){
 
-                    }
-
-                    if(interi[j]>max){
-
-                        max = interi[j];
-                        
-                    }
-
-                    somma += interi[j];
+                    min = interi[j];
 
                 }
+
+                if(interi[j]>max){
+
+                    max = interi[j];
                     
-                System.out.println("conteggio:"+conteggio); //debug
+                }
 
-                /*
+                somma += interi[j];
 
-                    Inserisci tutti i lati della figura, separati da una virgola
-                    1,f,6,1,45
-                    Hai inserito un valore non valido: f
-                    conteggio:4
-                    Il valore minore inserito è:0
-                    Il valore maggiore inserito è:6
-                    Il valore medio inserito è:2
-
-                    // Quando trovo un valore non intero viene assegnato il valore di default(0)?
-
-                */
-            
-                writer.write("Il valore minore inserito è:" + min);
-                writer.newLine();
-                writer.write("Il valore maggiore inserito è:"+ max);
-                writer.newLine();
-                writer.write("Il valore medio inserito è:"+ somma/conteggio);
-                writer.newLine();
-                writer.flush();
+            }
                 
-            } catch (IOException e) {
+            System.out.println("conteggio:"+conteggio); //debug
 
-                e.printStackTrace();
+            /*
 
-            } 
+                Inserisci tutti i lati della figura, separati da una virgola
+                1,f,6,1,45
+                Hai inserito un valore non valido: f
+                conteggio:4
+                Il valore minore inserito è:0
+                Il valore maggiore inserito è:6
+                Il valore medio inserito è:2
 
-        }
+                // Quando trovo un valore non intero viene assegnato il valore di default(0)?
+
+            */
+        
+            writer.write("Il valore minore inserito è:" + min);
+            writer.newLine();
+            writer.write("Il valore maggiore inserito è:"+ max);
+            writer.newLine();
+            writer.write("Il valore medio inserito è:"+ somma/conteggio);
+            writer.newLine();
+            writer.flush();
+            
+        } catch (IOException e) {
+
+            e.printStackTrace();
+
+        }  
 
     }
 
