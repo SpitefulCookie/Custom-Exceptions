@@ -1,5 +1,6 @@
 import java.io.*;
 
+
 class Main{
 
     public static void main(String[] args) {
@@ -18,7 +19,7 @@ class Main{
 
             try{
 
-                writer.write("Inserisci tutti i lati della figura, separati da una virgola");
+                writer.write("Inserisci tutti i lati della figura, separati da una virgola: ");
 
                 writer.newLine();
 
@@ -26,15 +27,90 @@ class Main{
 
                 String input = reader.readLine();
  
-                String[] lati = input.split(",");
+                String[] numeri = input.split(",");
+
+                int[] interi = new int[numeri.length];
+
+                int min = Integer.MAX_VALUE;
+
+                int max = Integer.MIN_VALUE;
+
+                int conteggio = numeri.length;
+
+
+                for (int i=0; i<numeri.length; i++) {
+
+                    try{
+
+                        interi[i] = Integer.parseInt(numeri[i]);
+                        
+                    } catch (NumberFormatException E){
+
+                        try{
+
+                           Double temp; // è necessario?
+
+                            temp = Double.parseDouble(numeri[i]);
+
+                            interi[i] = temp.intValue();
+                            
+                            
+                        } catch (NumberFormatException F){
+
+                            writer.write("Hai inserito un valore non valido: " + numeri[i]);
+                            writer.newLine();
+                            writer.flush();
+
+                            conteggio--;
+
+                        }
+
+                    }
+
+                }
+                int somma = 0;
             
-                for (int i=0; i<lati.length; i++) {
+                for(int j = 0 ; j<conteggio; j++){
 
-                    writer.write("Lato " + (i+1) + ": " + lati[i]);
+                    if(interi[j]<min){
 
-                    writer.newLine(); writer.flush();
+                        min = interi[j];
 
-                }    
+                    }
+
+                    if(interi[j]>max){
+
+                        max = interi[j];
+                        
+                    }
+
+                    somma += interi[j];
+
+                }
+                    
+                System.out.println("conteggio:"+conteggio); //debug
+
+                /*
+
+                    Inserisci tutti i lati della figura, separati da una virgola
+                    1,f,6,1,45
+                    Hai inserito un valore non valido: f
+                    conteggio:4
+                    Il valore minore inserito è:0
+                    Il valore maggiore inserito è:6
+                    Il valore medio inserito è:2
+
+                    // Quando trovo un valore non intero viene assegnato il valore di default(0)?
+
+                */
+            
+                writer.write("Il valore minore inserito è:" + min);
+                writer.newLine();
+                writer.write("Il valore maggiore inserito è:"+ max);
+                writer.newLine();
+                writer.write("Il valore medio inserito è:"+ somma/conteggio);
+                writer.newLine();
+                writer.flush();
                 
             } catch (IOException e) {
 
